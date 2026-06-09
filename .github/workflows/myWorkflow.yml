@@ -52,7 +52,6 @@ jobs:
         if: steps.maven-cache.outputs.cache-hit != 'true'
         run: |
           mvn -B de.qaware.maven:go-offline-maven-plugin:resolve-dependencies --file pom.xml
-          mvn -B dependency:get -Dartifact=com.google.googlejavaformat:google-java-format:1.8 --file pom.xml
           mvn -B site:help --file pom.xml
           mvn -B dependency:get -Dartifact=org.apache.maven.plugins:maven-project-info-reports-plugin:3.9.0 --file pom.xml
           mvn -B dependency:get -Dartifact=org.apache.maven.plugins:maven-antrun-plugin:3.1.0 --file pom.xml
@@ -65,7 +64,7 @@ jobs:
 
       # Build the project using the shared cache
       - name: Build with Maven
-        run: mvn -B -o package --file pom.xml
+        run: mvn -B -o spotless:check package --file pom.xml
 
       # Create project site using the same shared cache
       - name: Create project site
