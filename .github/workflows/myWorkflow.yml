@@ -37,16 +37,20 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
           cache: 'maven' # This automatically caches ~/.m2/repository for all subsequent steps
+      
+      # 3. Pre-fetch ALL dependencies and plugins
+      - name: Resolve all dependencies
+        run: mvn -B dependency:go-offline site:help --file pom.xml
 
-      # 3. Build the project using the shared cache
+      # 4. Build the project using the shared cache
       - name: Build with Maven
         run: mvn -B package --file pom.xml
 
-      # 4. Create project site using the same shared cache
+      # 5. Create project site using the same shared cache
       - name: Create project site
         run: mvn -B site
 
-      # 5. Publish project site to GH Pages
+      # 6. Publish project site to GH Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4.1.0
         with:
