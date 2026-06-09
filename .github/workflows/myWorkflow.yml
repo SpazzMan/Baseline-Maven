@@ -40,15 +40,17 @@ jobs:
       
       # 3. Pre-fetch ALL dependencies and plugins
       - name: Resolve all dependencies
-        run: mvn -B de.qaware.maven:go-offline-maven-plugin:resolve-dependencies site:help --file pom.xml
+        run: |
+          mvn -B de.qaware.maven:go-offline-maven-plugin:resolve-dependencies --file pom.xml
+          mvn -B site:help --file pom.xml
 
       # 4. Build the project using the shared cache
       - name: Build with Maven
-        run: mvn -B package --file pom.xml
+        run: mvn -B -o package --file pom.xml
 
       # 5. Create project site using the same shared cache
       - name: Create project site
-        run: mvn -B site
+        run: mvn -B -o site
 
       # 6. Publish project site to GH Pages
       - name: Deploy to GitHub Pages
