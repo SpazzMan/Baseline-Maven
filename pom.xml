@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.example</groupId>
+  <artifactId>baseline-maven</artifactId>
+  <version>1.0-SNAPSHOT</version>
+
+  <!-- Project Information -->
+  <name>Baseline multimodule project</name>
+  <description>This multimodule project shows how to integrate all features and configurations for a clear and
+        complete outcome.</description>
+  <url>http://mydomain.com</url>
+  <inceptionYear>2026</inceptionYear>
+  <organization>
+    <name>Home</name>
+    <url>http://mydomain.com</url>
+  </organization>
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>https://opensource.org</url>
+      <distribution>repo</distribution>
+      <comments>A short and simple permissive license with conditions only requiring preservation of copyright and
+                license notices.</comments>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <name>Adrian Trica</name>
+      <email>email@domain.com</email>
+      <organization>Home</organization>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+  </developers>
+  <contributors>
+    <contributor>
+      <name>Adrian Trica</name>
+      <email>email@domain.com</email>
+      <organization>Home</organization>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </contributor>
+  </contributors>
+
+  <properties>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <spotless.version>3.6.0</spotless.version>
+  </properties>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <!-- Maven Site plugin configuration -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.22.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-project-info-reports-plugin</artifactId>
+          <version>3.9.0</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>default</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <build>
+        <plugins>
+          <!-- Maven Spotless plugin configuration -->
+          <plugin>
+            <groupId>com.diffplug.spotless</groupId>
+            <artifactId>spotless-maven-plugin</artifactId>
+            <version>${spotless.version}</version>
+            <configuration>
+              <!--                    <ratchetFrom>origin/main</ratchetFrom>-->
+              <formats>
+                <format>
+                  <includes>
+                    <include>.gitattributes</include>
+                    <include>.gitignore</include>
+                  </includes>
+                  <trimTrailingWhitespace/>
+                  <endWithNewline/>
+                  <indent>
+                    <tabs>true</tabs>
+                    <spacesPerTab>2</spacesPerTab>
+                  </indent>
+                </format>
+              </formats>
+              <java>
+                <googleJavaFormat>
+                  <version>1.8</version>
+                  <style>GOOGLE</style>
+                  <reflowLongStrings>true</reflowLongStrings>
+                  <formatJavadoc>true</formatJavadoc>
+                </googleJavaFormat>
+                <formatAnnotations/>
+                <importOrder/>
+                <removeUnusedImports/>
+                <forbidWildcardImports/>
+              </java>
+              <pom>
+                <sortPom/>
+              </pom>
+            </configuration>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>apply</goal>
+                </goals>
+                <phase>validate</phase>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+</project>
