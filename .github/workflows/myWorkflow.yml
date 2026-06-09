@@ -44,7 +44,7 @@ jobs:
           mvn -B de.qaware.maven:go-offline-maven-plugin:resolve-dependencies --file pom.xml
           mvn -B site:help --file pom.xml
           mvn -B dependency:get -Dartifact=org.apache.maven.plugins:maven-project-info-reports-plugin:3.9.0 --file pom.xml
-          mvn -B dependency:get -Dartifact=org.apache.maven.skins:maven-fluido-skin:jar:2.1.0 --file pom.xml
+          mvn -B dependency:get -Dartifact=org.apache.maven.skins:maven-fluido-skin:2.1.0 --file pom.xml
 
       # 4. Build the project using the shared cache
       - name: Build with Maven
