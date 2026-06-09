@@ -36,10 +36,20 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '21'
-          cache: 'maven' # This automatically caches ~/.m2/repository for all subsequent steps
+          
+      # Manually handle Maven caching and give this step an 'id'
+      - name: Cache Maven Packages
+        id: maven-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml', '**/src/site/site.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
       
       # Pre-fetch ALL dependencies and plugins
       - name: Resolve all dependencies
+        if: steps.maven-cache.outputs.cache-hit != 'true'
         run: |
           mvn -B de.qaware.maven:go-offline-maven-plugin:resolve-dependencies --file pom.xml
           mvn -B site:help --file pom.xml
