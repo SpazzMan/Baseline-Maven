@@ -26,11 +26,11 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # 1. Checks-out your repository first so the workflow can see your pom.xml
+      # Checks-out your repository first so the workflow can see your pom.xml
       - name: Checkout Code
         uses: actions/checkout@v6
 
-      # 2. Set up Java AND handle Maven caching natively in one single place
+      # Set up Java AND handle Maven caching natively in one single place
       - name: Set up JDK 21
         uses: actions/setup-java@v5
         with:
@@ -38,26 +38,29 @@ jobs:
           java-version: '21'
           cache: 'maven' # This automatically caches ~/.m2/repository for all subsequent steps
       
-      # 3. Pre-fetch ALL dependencies and plugins
+      # Pre-fetch ALL dependencies and plugins
       - name: Resolve all dependencies
         run: |
           mvn -B de.qaware.maven:go-offline-maven-plugin:resolve-dependencies --file pom.xml
           mvn -B site:help --file pom.xml
           mvn -B dependency:get -Dartifact=org.apache.maven.plugins:maven-project-info-reports-plugin:3.9.0 --file pom.xml
+          mvn -B dependency:get -Dartifact=org.apache.maven.plugins:maven-antrun-plugin:3.1.0 --file pom.xml
+          mvn -B dependency:get -Dartifact=org.apache.maven.plugins:maven-assembly-plugin:3.7.1 --file pom.xml
+          mvn -B dependency:get -Dartifact=org.apache.maven.plugins:maven-release-plugin:3.0.1 --file pom.xml
           
           # Fetch BOTH the JAR and the POM descriptor for the exact version the project uses
           mvn -B dependency:get -Dartifact=org.apache.maven.skins:maven-fluido-skin:2.0.0-M9 --file pom.xml
           mvn -B dependency:get -Dartifact=org.apache.maven.skins:maven-fluido-skin:2.0.0-M9:pom --file pom.xml
 
-      # 4. Build the project using the shared cache
+      # Build the project using the shared cache
       - name: Build with Maven
         run: mvn -B -o package --file pom.xml
 
-      # 5. Create project site using the same shared cache
+      # Create project site using the same shared cache
       - name: Create project site
         run: mvn -B -o site
 
-      # 6. Publish project site to GH Pages
+      # Publish project site to GH Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4.1.0
         with:
